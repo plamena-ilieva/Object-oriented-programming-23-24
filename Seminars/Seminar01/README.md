@@ -194,7 +194,7 @@ struct B {
 	int c;
 	short b;
 };
-// sizeof(B) = 16
+// sizeof(B) = 12
 // alignof(B) = 4
 ```
 
@@ -207,7 +207,7 @@ struct C {
 	char a[5];
 	int c;
 };
-// sizeof(C) = 16
+// sizeof(C) = 12
 // alignof(C) = 4
 ```
 - празните структури имат размер 1, за да имат място в паметта
@@ -268,8 +268,8 @@ struct H
 	char c1[4];
 	char c2[];
 };
-// sizeof(A) = 8
-// alignof(A) = 4
+// sizeof(H) = 80
+// alignof(H) = 8
 ```
 
 ## Енумерации (Enums)
@@ -372,6 +372,140 @@ switch (continent) {
     }
 ```
 
+## Пространства от имена (namespaces)
+- предотвратяват конфликти с имена
+- в един namespace могат да се използват цели други такива или само определени функции (всички функции с това име)
+
+    ```cpp
+    namespace A {
+        void f() {}
+        void f(int a) {}
+        void g() {}
+    }
+
+    int main()
+    {
+        using A::f;
+        f(); // работи
+        f(3); // работи
+        g(); // грешка - тази функция не е включена 
+    }
+    ```
+- при използване на namespace се запазва scope-а, в който са дефинирани
+- ако има променливи с едно и също име в различни namespaces и се използват едновременно повече от един от тях, с най-висок приоритет са декларациите в този namespace, който е деклариран в най-близкия външен scope
+
+    ```c++
+    namespace A
+    {
+        int i;
+    }
+    
+    namespace B
+    {
+        int i;
+        int j;
+    
+        namespace C
+        {
+            namespace D
+            {
+                using namespace A; // all names from A injected into global namespace
+    
+                int j;
+                int k;
+                int a = i;         // i is B::i, because A::i is hidden by B::i
+            }
+    
+            using namespace D; // names from D are injected into C
+                            // names from A are injected into global namespace
+    
+            int k = 89; // OK to declare name identical to one introduced by a using
+            int l = k;  // ambiguous: C::k or D::k
+            int m = i;  // ok: B::i hides A::i
+            int n = j;  // ok: D::j hides B::j
+        }
+    }
+
+    namespace Q
+    {
+        namespace V   	// V is a member of Q, and is fully defined within Q
+        { 			 	// namespace Q::V // C++17 alternative to the lines above
+            class C		// C is a member of V and is fully defined within V
+            { 
+                void m(); // C::m is only declared
+            };
+            void f(); // f is a member of V, but is only declared here
+        }
+    
+        void V::C::m() // definition of V::C::m outside of the namespace (and the class body)
+        {}             // enclosing namespaces are the global namespace, Q, and Q::V
+    }
+    ```
+## Обединения (Unions)
+- последователност от полета, които споделят една памет
+    ```c++
+    union Example
+    {
+        int a;
+        char b;
+    } var;
+
+    int main()
+    {
+        var.a = 65;
+        std::cout << var.a << " " << var.b; // 65 A
+    }
+    ```
+- размерът на един union е колкото размерa на най-голямата променлива
+- предназначени са за използване на точно едно поле (иначе - undefined behaviour)
+- използват се, когато искаме повече от една интерпретация на определени данни или когато във всеки момент искаме да използваме точно една от променливите (трябва ни и флаг, който)
+
+
+    ```cpp
+    #include <iostream>
+
+    enum DataType {
+        CHAR,
+        INT,
+        FLOAT
+    };
+
+    struct data {
+        DataType type;
+        union {
+            char char_value;
+            int int_value;
+            float float_value;
+        };
+    };
+
+    int main() {
+        data myData1;
+        myData1.type = INT;
+        myData1.int_value = 42;
+
+        // проверяваме типа и използваме на съответната стойност
+        switch (myData1.type) {
+            case CHAR:
+                std::cout << "Char Value: " << myData1.char_value << std::endl;
+                break;
+            case INT:
+                std::cout << "Int Value: " << myData1.int_value << std::endl;
+                break;
+            case FLOAT:
+                std::cout << "Float Value: " << myData1.float_value << std::endl;
+                break;
+        }
+
+        return 0;
+    }
+    ```
+
+
+
 **Задача 1:** Резлизирайте структура Rational, която е за работа с рационални числа. <br />
 Имплементирайте функции за събиране, изваждане, умножение и деление. <br />
 Имеплементирайте функция, която приема истанция(обект) от новия тип и връща дали е валидно рационално число, както и функция, която връща дали е цяло число. <br />
+
+
+**Задача 2:** Реализирайте функция, която преобразува стринг към цяло число. Освен резултата, функцията да връща и код за грешка, ако е възникнала такава по време на преобразуването (OK, ако не е възникнала).
