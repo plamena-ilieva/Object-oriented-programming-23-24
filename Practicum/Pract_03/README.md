@@ -42,7 +42,7 @@
 Създайте функция, bool existOffer(const char* filePath, const char* name),
 която проверява дали дадена фирма е пратила покана за работа.
 
-*Бонус №1: Създайте void perfectOffer(const char* filePath, int maxCoworkers, int minVacancyDays, int minSalary), която извежда във файл всички обяви, които отговарят точно на изискванията на Христо.
+*Бонус №1: Създайте void perfectOffer(const char* filePath, int maxCoworkers, int minVacancyDays, int minSalary), която извежда във файл всички обяви, които отговарят точно на изискванията на Пенчо.
 
 *Бонус №2: Създайте система, която работи чрез следните заявки:
 
