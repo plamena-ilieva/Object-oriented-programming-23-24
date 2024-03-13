@@ -16,7 +16,7 @@ struct Team
 {
     Employee employees[5];
     int teamId;
-}
+};
 ```
 Какви ще бъдат техните размер (size) и подравняване (alignment)?
 
@@ -27,16 +27,16 @@ struct Team
 char symbol;
 file.seekg(5, ios::beg);
 symbol = file.get();
-std::cout << ch << std::endl;
+std::cout << symbol << std::endl;
 file.seekg(-4, ios::cur);
 symbol = file.get();
-std::cout << ch << std::endl;
+std::cout << symbol << std::endl;
 file.seekg(-2, ios::end);
 symbol = file.get();
-std::cout << ch << std::endl;
+std::cout << symbol << std::endl;
 file.seekg(-1, ios::cur);
 symbol = file.get();
-std::cout << ch << std::endl;
+std::cout << symbol << std::endl;
 ```
 
 **Задача 3.** Напишете функция, която намира размера на файл.
