@@ -75,6 +75,7 @@ bool splitArrays(const char* originFileName, const char* oddFileName, const char
 
     delete[] oddNumbers;
     delete[] evenNumbers;
+    delete[] numbers;
 
     return res;
 }
