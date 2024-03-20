@@ -81,7 +81,7 @@ public:
         Time begin(23, 0, 0);
         Time end(6, 0, 0);
 
-        return compare(begin) > 0 && compare(end) < 0;
+        return compare(begin) > 0 || compare(end) < 0;
     }
 
     bool isDinnerTime() const {
