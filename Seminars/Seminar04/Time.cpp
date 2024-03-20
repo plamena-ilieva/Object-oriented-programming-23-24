@@ -2,9 +2,9 @@
 #include <cmath>
 
 class Time {
-    unsigned hours;
-    unsigned minutes;
-    unsigned seconds;
+    unsigned hours = 0;
+    unsigned minutes = 0;
+    unsigned seconds = 0;
 
     bool isInInterval(unsigned upperBound, unsigned value) const {
         return value <= upperBound;
