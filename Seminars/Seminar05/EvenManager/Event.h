@@ -9,7 +9,8 @@ private:
 	Time begin;
 	Time end;
 
-	//validation - next seminar
+	void validateTimes();
+	void setName(const char* name);
 public:
 	Event() = default;
 

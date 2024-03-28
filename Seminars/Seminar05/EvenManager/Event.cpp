@@ -1,10 +1,16 @@
 #include "Event.h"
 #pragma warning (disable : 4996)
 
+void Event::validateTimes() {
+    if (begin.compare(end) == 1)
+        std::swap(begin, end);
+}
+
 Event::Event(const char* name, const BulgarianDate& date, const Time& beg, const Time& end)
     : date(date), begin(beg), end(end)
 {
-    //validations!!!
+    setName(name);
+    validateTimes();
 }
 
 Event::Event(
@@ -16,7 +22,8 @@ Event::Event(
     begin(begHours, begMins, begSeconds), 
     end(endHours, endMins, endSeconds)
 {
-    //validations!!!
+    setName(name);
+    validateTimes();
 }
 
 const char* Event::getName() const {
@@ -33,4 +40,11 @@ const Time& Event::getBegin() const {
 
 const Time& Event::getEnd() const {
     return end;
+}
+
+void Event::setName(const char* argName) {
+    if (strlen(argName) > 20)
+        return;
+
+    strcpy(name, argName);
 }

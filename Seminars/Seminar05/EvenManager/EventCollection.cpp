@@ -23,7 +23,7 @@ int EventCollection::findEventByName(const char* name) const {
 }
 
 bool EventCollection::addEvent(const Event& event) {
-	if (size >= MAX_EVENT_SIZE) {
+	if (size >= 30) {
 		return false;
 	}
 	events[size] = event;
@@ -33,9 +33,33 @@ bool EventCollection::addEvent(const Event& event) {
 
 EventCollection EventCollection::maxEvents(const BulgarianDate& date) const
 {
-	EventCollection onSameDate = eventsOnDate(date);
+	EventCollection sameDateBuffer = eventsOnDate(date);
 
-	//implementation -> next seminar
+	for (size_t i = 0; i < size - 1; i++) {
+		size_t currMinIndex = i;
+
+		for (size_t j = i + 1; j < size; j++) {
+			if (sameDateBuffer.events[currMinIndex].getEnd()
+				.compare(sameDateBuffer.events[j].getEnd()) == 1) {
+				currMinIndex = j;
+			}
+		}
+
+		if (currMinIndex != i) {
+			std::swap(sameDateBuffer.events[currMinIndex], sameDateBuffer.events[i]);
+		}
+	}
+
+	EventCollection toReturn;
+	toReturn.addEvent(sameDateBuffer.events[0]);
+
+	for (size_t i = 1; i < sameDateBuffer.size; i++) {
+		if (sameDateBuffer.events[i].getBegin().compare(sameDateBuffer.events[toReturn.size - 1].getEnd()) >= 0) {
+			toReturn.addEvent(sameDateBuffer.events[i]);
+		}
+	}
+
+	return toReturn;
 }
 
 bool EventCollection::removeEvent(const char* name) {
