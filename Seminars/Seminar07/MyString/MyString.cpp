@@ -135,6 +135,7 @@ MyString operator+(const MyString& lhs, const MyString& rhs)
 	unsigned capacity = nextPowerOfTwo(size) - 1;
 
 	MyString res(capacity);
+	res.size = size;
 	strcpy(res.data, lhs.data);
 	strcat(res.data, rhs.data);
 
