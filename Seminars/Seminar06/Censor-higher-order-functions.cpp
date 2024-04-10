@@ -30,7 +30,7 @@ public:
 constexpr int BUFF_SIZE = 20;
 class Text {
     char buff[BUFF_SIZE + 1] = "";
-    Censor& censor;
+    const Censor& censor;
 
     void setBuffer(const char* val) {
         if (strlen(val) > BUFF_SIZE) {
@@ -40,7 +40,7 @@ class Text {
     }
 
 public:
-    Text(Censor& c, const char* buff) : censor(c) {
+    Text(const Censor& c, const char* buff) : censor(c) {
         setBuffer(buff);
     }
 
