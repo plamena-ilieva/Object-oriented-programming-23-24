@@ -1,8 +1,11 @@
 #pragma once
+
+const unsigned BUCKET_SIZE = 8;
 class Set
 {
 	unsigned char* data;
 	unsigned maxNum;
+	unsigned size;
 
 	void copyFrom(const Set& other);
 	void free();
@@ -21,5 +24,8 @@ public:
 	void remove(unsigned n);
 	bool contains(unsigned n) const;
 	void print() const;
+
+	friend Set intersectionOfSets(const Set& lhs, const Set& rhs);
+	friend Set unionOfSets(const Set& lhs, const Set& rhs);
 };
 

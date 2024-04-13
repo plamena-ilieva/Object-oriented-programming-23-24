@@ -4,8 +4,9 @@
 void Set::copyFrom(const Set& other)
 {
 	maxNum = other.maxNum;
-	data = new unsigned char[(maxNum + 1) / 8 + 1];
-	for (size_t i = 0; i < (maxNum + 1) / 8 + 1; i++)
+	size = other.size;
+	data = new unsigned char[(maxNum + 1) / BUCKET_SIZE + 1];
+	for (size_t i = 0; i < (maxNum + 1) / BUCKET_SIZE + 1; i++)
 	{
 		data[i] = other.data[i];
 	}
@@ -15,25 +16,45 @@ void Set::free()
 {
 	delete[] data;
 	data = nullptr;
-	maxNum = 0;
+	maxNum = size = 0;
 }
 
 unsigned Set::getBucket(unsigned n) const
 {
-	return n / 8;
+	return n / BUCKET_SIZE;
 }
 
 unsigned char Set::getMask(unsigned n) const
 {
 	unsigned char mask = 1;
-	mask <<= 7 - (n % 8);
+	mask <<= (BUCKET_SIZE - 1) - (n % BUCKET_SIZE);
 	return mask;
+}
+
+Set::Set() : Set(15)
+{
 }
 
 Set::Set(unsigned max)
 {
 	maxNum = max;
-	data = new unsigned char[(maxNum + 1) / 8 + 1] {};
+	size = (maxNum + 1) / BUCKET_SIZE + 1;
+	data = new unsigned char[size] {};
+}
+
+Set::Set(const Set& other)
+{
+	copyFrom(other);
+}
+
+Set& Set::operator=(const Set& other)
+{
+	if (this != &other) {
+		free();
+		copyFrom(other);
+	}
+
+	return *this;
 }
 
 Set::~Set()
@@ -87,4 +108,37 @@ void Set::print() const
 	}
 
 	std::cout << std::endl;
+}
+
+
+Set intersectionOfSets(const Set& lhs, const Set& rhs)
+{
+	const Set& maxSet = (lhs.maxNum > rhs.maxNum ? lhs : rhs);
+	const Set& minSet = (lhs.maxNum < rhs.maxNum ? lhs : rhs);
+	Set res(minSet);
+
+	unsigned minBuckets = std::min(lhs.size, rhs.size);
+
+	for (size_t i = 0; i < minBuckets; i++)
+	{
+		res.data[i] &= maxSet.data[i];
+	}
+
+	return res;
+}
+
+Set unionOfSets(const Set& lhs, const Set& rhs)
+{
+	const Set& maxSet = (lhs.maxNum> rhs.maxNum ? lhs : rhs);
+	const Set& minSet = (lhs.maxNum < rhs.maxNum ? lhs : rhs);
+	Set res(maxSet);
+
+	unsigned minBuckets = std::min(lhs.size, rhs.size);
+
+	for (size_t i = 0; i < minBuckets; i++)
+	{
+		res.data[i] |= minSet.data[i];
+	}
+
+	return res;
 }
