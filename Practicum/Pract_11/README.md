@@ -62,9 +62,9 @@ int main()
 using namespace std;
 class A
 {
-	int a, b;//4
-	float d;//4
-	bool bl;//1
+	int a, b;// sizeof(int) = 4
+	float d;// sizeof(float) = 4
+	bool bl;// sizeof(bool) = 1 
    
 };
  
