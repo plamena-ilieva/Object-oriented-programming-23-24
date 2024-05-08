@@ -62,7 +62,7 @@ int main()
 using namespace std;
 class A
 {
-	int a, b;//8
+	int a, b;//4
 	float d;//4
 	bool bl;//1
    
