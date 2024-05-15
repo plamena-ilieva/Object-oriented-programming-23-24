@@ -133,7 +133,7 @@ class Der : public Base
     int* myArr = nullptr;
     size_t mySize = 0;
 public:
-    Det(const int* arr, size_t size): Base(5)
+    Der(const int* arr, size_t size): Base(5)
     {
         // validation, nullptr checks and more...
 
