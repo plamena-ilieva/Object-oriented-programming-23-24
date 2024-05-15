@@ -169,7 +169,7 @@ int main()
     const int arr[] = {1, 2, 3};
     Base* ptr = new Der(arr, 3);
 
-    ptr->f();
+    ptr->printData();
 
     delete ptr;
 }
