@@ -49,3 +49,7 @@ int main()
     t.intersectWith(c);
     */
 }
+
+bool areIntersected(const Shape* lhs, const Shape* rhs) {
+	return lhs->isIntersectedWith(rhs);
+}
