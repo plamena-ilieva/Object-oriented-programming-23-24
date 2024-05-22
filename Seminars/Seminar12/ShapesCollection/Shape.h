@@ -1,8 +1,9 @@
 #pragma once
 #include <iostream>
-#include "Rectangle.h"
-#include "Circle.h"
-#include "Triangle.h"
+
+class Triangle;
+class Rectangle;
+class Circle;
 
 
 class Shape   // Abstract class - no instances of Shape are allowed!
