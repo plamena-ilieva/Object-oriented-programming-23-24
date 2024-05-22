@@ -47,7 +47,7 @@ void MyQueue<T>::resize()
 		temp[i++] = data[get];
 		(++get) %= capacity;
 	}
-
+	delete[] data;
 	data = temp;
 	get = 0;
 	put = size;
