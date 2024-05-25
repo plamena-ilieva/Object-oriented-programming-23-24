@@ -185,7 +185,7 @@ int main() {
 ```c++
 #include<iostream>
 
-void g(int&) {
+void g(const int&) {
 	std::cout << "LValue";
 }
 
