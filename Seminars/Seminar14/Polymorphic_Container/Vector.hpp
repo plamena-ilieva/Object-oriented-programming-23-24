@@ -22,8 +22,8 @@ public:
     Vector(const Vector<T>& other);
     Vector(Vector<T>&& other);
 
-    Vector<T> operator=(const Vector<T>& other);
-    Vector<T> operator=(Vector<T>&& other);
+    Vector<T>& operator=(const Vector<T>& other);
+    Vector<T>& operator=(Vector<T>&& other);
 
     void pushBack(const T& element);
     void pushBack(T&& element);
@@ -61,7 +61,7 @@ void Vector<T>::copyFrom(const Vector<T>& other)
     data = new T[capacity];
     for (size_t i = 0; i < size; i++)
     {
-        data = other.data;
+        data[i] = other.data[i];
     }
 }
 
@@ -87,6 +87,7 @@ void Vector<T>::resize(size_t newCapacity)
 
     delete[] data;
     data = newData;
+    capacity = newCapacity;
 }
 
 template <typename T>
@@ -111,7 +112,7 @@ Vector<T>::Vector(Vector<T>&& other)
 }
 
 template <typename T>
-Vector<T> Vector<T>::operator=(const Vector<T>& other)
+Vector<T>& Vector<T>::operator=(const Vector<T>& other)
 {
     if (this != &other)
     {
@@ -123,7 +124,7 @@ Vector<T> Vector<T>::operator=(const Vector<T>& other)
 }
 
 template <typename T>
-Vector<T> Vector<T>::operator=(Vector<T>&& other)
+Vector<T>& Vector<T>::operator=(Vector<T>&& other)
 {
     if (this != &other)
     {
